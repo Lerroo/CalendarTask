@@ -1,0 +1,49 @@
+﻿@using Google.Apis.Calendar.v3.Data;
+@{
+    ViewData["Title"] = "Home Page";
+    IList<Google.Apis.Calendar.v3.Data.Event> events = ViewBag.Events;
+}
+
+<div class="text-left">
+    <h2 class="display-4">Upcomming Events</h2>
+    <hr />
+
+    <a class="btn-primary btn" asp-action="Create">Add new metting</a> 
+    @if (events != null)
+    {
+    <table class="table table-borderless">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Start
+            </th>
+            <th>
+                End
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Created by
+            </th>
+        </tr>
+        @foreach (var _event in events)
+        {
+        <tr>
+            <td>@_event.Summary</td>
+            <td>@_event.Start.DateTime</td>
+            <td>@_event.End.DateTime</td>
+            <td>@_event.Created</td>
+        </tr>
+        }
+
+    </table>
+    }
+    else
+    {
+<div class="alert alert-danger">No upcoming events</div>
+    }
+
+</div>
