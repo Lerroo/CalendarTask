@@ -56,10 +56,18 @@ namespace CalendarProj.Controllers
         {
             if (ModelState.IsValid)
             {
-                _googleCalendarService.CreateEvent(customEvent);
+                if (_googleCalendarService.IsFreeTime(customEvent))
+                {
+                    _googleCalendarService.CreateEvent(customEvent);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.ErrorMessageDate = "This date is busy";
+                }
             }
+
             customEvent.Types = _googleCalendarService.GetAllTypes();
             return View(customEvent);
         }

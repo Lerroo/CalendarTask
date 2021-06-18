@@ -26,7 +26,16 @@
                     </div>
                     <div class="col">
                         <input asp-for="Start.DateTime" class="form-control" />
-                        <span asp-validation-for="Start.DateTime" class="text-danger"></span>
+
+                        @if (ViewBag.ErrorMessageDate != null)
+                        {
+                            <span class="text-danger">@ViewBag.ErrorMessageDate</span>
+                        }
+                        else
+                        {
+                            <span asp-validation-for="Start" class="text-danger"></span>
+                        }
+
                     </div>
                 </div>
 
@@ -37,7 +46,7 @@
                     </div>
                     <select class="form-control col-4 mr-3" asp-for="TypeEnumInt" asp-items="@Model.Types"></select>
                 </div>
-                <small class="form-text text-muted d-flex justify-content-end">Short = 30 min, Long = 60 min</small>
+                <small class="form-text text-muted d-flex justify-content-end">Short = 15 min, Long = 60 min</small>
 
                 <div class="row d-flex justify-content-end">
                     <div class="col-8 offset-4 row">

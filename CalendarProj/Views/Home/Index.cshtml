@@ -22,12 +22,6 @@
             <th>
                 End
             </th>
-            <th>
-                Created
-            </th>
-            <th>
-                Created by
-            </th>
         </tr>
         @foreach (var _event in events)
         {
@@ -35,7 +29,6 @@
             <td>@_event.Summary</td>
             <td>@_event.Start.DateTime</td>
             <td>@_event.End.DateTime</td>
-            <td>@_event.Created</td>
         </tr>
         }
 

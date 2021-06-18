@@ -27,11 +27,16 @@ namespace CalendarProj.DAO.Models
         {
             get
             {
+                if (Start.DateTime == null)
+                {
+                    return Start;
+                }
+
                 int addMinutes = 0;
                 switch ((TypeMetting)TypeEnumInt)
                 {
                     case TypeMetting.Short: 
-                        addMinutes = 30;
+                        addMinutes = 15;
                         break;
 
                     case TypeMetting.Long:

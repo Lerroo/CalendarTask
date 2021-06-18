@@ -14,5 +14,6 @@ namespace CalendarProj.BL.Services.Interfaces
         IList<Event> GetEvents();
         void CreateEvent(CustomEvent customEvent);
         List<SelectListItem> GetAllTypes();
+        bool IsFreeTime(CustomEvent customEvent);
     }
 }

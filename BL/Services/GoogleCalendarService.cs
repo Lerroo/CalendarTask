@@ -12,12 +12,13 @@ using System.Threading;
 using CalendarProj.DAO.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CalendarProj.DAO.Models.Enums;
+using System.Linq;
 
 namespace CalendarProj.BL.Services
 {
     public class GoogleCalendarService : IGoogleCalendarService
     {
-        private readonly string _applicationName = "Google Calendar API .NET Quickstart";
+        private readonly string _applicationName = "Google Calendar API .NET";
         private readonly string[] _scopes = { CalendarService.Scope.Calendar };
         private readonly string _currentCalendarId = "primary";
 
@@ -47,11 +48,6 @@ namespace CalendarProj.BL.Services
             });
         }
 
-        private string GenerateCalenraId()
-        {
-            return Guid.NewGuid().ToString();
-        }
-
         public List<SelectListItem> GetAllTypes()
         {
             var years = new List<SelectListItem>();
@@ -67,21 +63,14 @@ namespace CalendarProj.BL.Services
             return years;
         }
 
-        public bool IsFreeBusy(CustomEvent customEvent)
+        public bool IsFreeTime(CustomEvent customEvent)
         {
             var allEvents = GetEvents();
-            foreach (var eventItem in allEvents)
-            {
-                var start = eventItem.Start.DateTime;
-                var end = eventItem.End.DateTime;
-                var checkEnevt = customEvent.Start.DateTime;
 
-                if (start > checkEnevt && checkEnevt<end)
-                {
-                    return false;
-                }
-            }
-            return true;
+            var all = allEvents
+                .All(ev => (ev.Start.DateTime > customEvent.Start.DateTime && ev.Start.DateTime >= customEvent.End.DateTime)
+                    || ev.End.DateTime <= customEvent.Start.DateTime && ev.End.DateTime < customEvent.End.DateTime);
+            return all;
         }
 
         public IList<Event> GetEvents()
@@ -108,7 +97,7 @@ namespace CalendarProj.BL.Services
             };
 
             _calendarService.Events
-                .Insert(newEvent, _currentCalendarId).
+                .Insert(newEvent, _currentCalendarId)
                 .Execute();
         }
 
